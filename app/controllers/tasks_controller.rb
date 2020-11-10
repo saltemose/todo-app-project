@@ -20,7 +20,7 @@ class TasksController < ApplicationController
   # GET /tasks/1
   # GET /tasks/1.json
   def show
-    @edits = Edit.where(:task_id => params[:id])
+    @edits = Edit.where(:task_id => params[:id]).sort_by { |item| -item.id }
   end
 
   # GET /tasks/new
