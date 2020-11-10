@@ -2,6 +2,11 @@ class EditsController < ApplicationController
 
     def create 
         @edit = Edit.new(edit_params)
+        if @edit.save!
+            render json: ['Success'], status: 200
+        else 
+            render json: @transaction.errors.full_messages, status: 422
+        end
     end
 
 
