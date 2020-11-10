@@ -7,7 +7,14 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = current_user.tasks
+    if params[:completed]
+      @tasks = current_user.tasks.where(:completed => params[:completed])
+    else 
+      @tasks = current_user.tasks.where(:completed => false)
+    end 
+      @allTasks = current_user.tasks.count()
+      @completedTasks = current_user.tasks.where(:completed => true).count()
+      @incompleteTasks = current_user.tasks.where(:completed => false).count()
   end
 
   # GET /tasks/1

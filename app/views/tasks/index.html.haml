@@ -1,23 +1,45 @@
 %h1 Tasks
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th Completed
-      %th
-      %th
-      %th
+-if @allTasks == 0 
+  %span.text-warning There are no tasks!
 
-  %tbody
-    - @tasks.each do |task|
+-if !@tasks.empty?
+  %table
+    %thead
       %tr
-        %td=task.name
-        %td=task.completed
-        %td=link_to 'Show', task
-        %td=link_to 'Edit', edit_task_path(task)
-        %td=link_to 'Destroy', task, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %th Name
+        %th Completed
+        %th
+        %th
+        %th
 
+    %tbody
+      - @tasks.each do |task|
+        %tr
+          %td=task.name
+          -if task.completed? 
+            %td Yes
+          -else 
+            %td No
+          %td=link_to 'Show', task
+          %td=link_to 'Edit', edit_task_path(task)
+          %td=link_to 'Destroy', task, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      
 %br
 
+-if @completedTasks > 0
+  -if !@tasks.empty? 
+    -if !@tasks.first.completed?
+      =link_to 'Show Completed Tasks', tasks_path(completed: true)
+  -if @tasks.empty?
+    =link_to 'Show Completed Tasks', tasks_path(completed: true)
+-if @incompleteTasks > 0 
+  -if @tasks.first.completed?
+    =link_to 'Show Incomplete Tasks', tasks_path(completed: false)
+-if @allTasks > 0 && @incompleteTasks == 0
+  %span.text-warning There are no incomplete tasks!
+-if @allTasks > 0 && @completedTasks == 0
+  %span.text-warning There are no completed tasks!
+
+%br
 =link_to 'Add a task', new_task_path
