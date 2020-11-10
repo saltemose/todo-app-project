@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
         if @user.save
             login!(@user)
-            redirect_to users_url(@user)
+            redirect_to tasks_url
         else
           render json: @user.errors.full_messages
         end
@@ -18,7 +18,6 @@ class UsersController < ApplicationController
       end
 
       private
-
 
       def user_params
         params.require(:user).permit(:email, :password)
