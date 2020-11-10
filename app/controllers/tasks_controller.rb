@@ -19,7 +19,9 @@ class TasksController < ApplicationController
 
   # GET /tasks/1
   # GET /tasks/1.json
-  def show; end
+  def show
+    @edits = Edit.where(:task_id => params[:id])
+  end
 
   # GET /tasks/new
   def new
@@ -51,6 +53,12 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
+        edit_params = {
+          task_id: @task.id,
+          name: @task.name,
+          completed: @task.completed
+        }
+        @edit = Edit.create(edit_params)
         format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
       else
