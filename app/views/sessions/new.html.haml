@@ -1,0 +1,10 @@
+%h1 Log in!
+%form{action: "/session", method: "POST"}
+  %input{name: "authenticity_token", type: "hidden", value: form_authenticity_token}/
+  %label{for: "user_email"} Username
+  %input#user_email{name: "user[email]", type: "text"}/
+  %br/
+  %label{for: "user_password"} Password
+  %input#user_password{name: "user[password]", type: "password"}/
+  %br/
+  %input{type: "submit", value: "Log in!"}/

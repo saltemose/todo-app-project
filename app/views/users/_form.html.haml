@@ -1,0 +1,16 @@
+- action = (user.persisted? ? user_url(user) : users_url)
+- method = (user.persisted? ? "patch" : "post")
+- message = (user.persisted? ? "Update user" : "Create user")
+%form{action: action, method: "post"}
+  %input{name: "_method", type: "hidden", value: method}/
+  %input{name: "authenticity_token", type: "hidden", value: form_authenticity_token}/
+  %label{for: "user_email"} Email
+  %input#user_email{name: "user[email]", type: "text"}/
+  %br/
+  %label{for: "user_password"} Password
+  %input#user_password{name: "user[password]", type: "password"}/
+  %br/
+  %input{type: "submit", value: message}/
+%br/
+%div
+  If you're already a member of Todo, #{link_to 'sign in here', new_session_path}
