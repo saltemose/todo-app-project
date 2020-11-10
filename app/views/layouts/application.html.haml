@@ -8,12 +8,11 @@
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag "application", "data-turbolinks-track" => true
     - if !current_user.nil?
-      %ul
-        %div
-          Logged in as: #{current_user.email}
-          %form{action: session_url, method: "POST"}
-            %input{name: "authenticity_token", type: "hidden", value: form_authenticity_token}/
-            %input{name: "_method", type: "hidden", value: "delete"}/
-            %input{type: "submit", value: "Logout"}/
+      %div
+        Logged in as: #{current_user.email}
+        %form{action: session_url, method: "POST"}
+          %input{name: "authenticity_token", type: "hidden", value: form_authenticity_token}/
+          %input{name: "_method", type: "hidden", value: "delete"}/
+          %input{type: "submit", value: "Logout"}/
   %body
     = yield

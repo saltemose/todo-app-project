@@ -2,7 +2,7 @@
 %h3 Sign In
 %form{action: "/session", method: "POST"}
   %input{name: "authenticity_token", type: "hidden", value: form_authenticity_token}/
-  %label{for: "user_email"} Username
+  %label{for: "user_email"} Email
   %input#user_email{name: "user[email]", type: "text"}/
   %br/
   %label{for: "user_password"} Password
