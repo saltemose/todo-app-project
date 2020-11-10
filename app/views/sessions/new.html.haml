@@ -1,0 +1,14 @@
+%h1 Welcome to Todo
+%h3 Sign In
+%form{action: "/session", method: "POST"}
+  %input{name: "authenticity_token", type: "hidden", value: form_authenticity_token}/
+  %label{for: "user_email"} Email
+  %input#user_email{name: "user[email]", type: "text"}/
+  %br/
+  %label{for: "user_password"} Password
+  %input#user_password{name: "user[password]", type: "password"}/
+  %br/
+  %input{type: "submit", value: "Log in!"}/
+%br
+%div
+  If you're new to Todo, #{link_to 'create an account here', new_users_path}

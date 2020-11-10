@@ -1,17 +1,27 @@
 # frozen_string_literal: true
 
 class TasksController < ApplicationController
+  before_action :require_current_user!, except: [:create, :new]
   before_action :set_task, only: %i[show edit update destroy]
 
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    if params[:completed]
+      @tasks = current_user.tasks.where(:completed => params[:completed])
+    else 
+      @tasks = current_user.tasks.where(:completed => false)
+    end 
+      @allTasks = current_user.tasks.count()
+      @completedTasks = current_user.tasks.where(:completed => true).count()
+      @incompleteTasks = current_user.tasks.where(:completed => false).count()
   end
 
   # GET /tasks/1
   # GET /tasks/1.json
-  def show; end
+  def show
+    @edits = Edit.where(:task_id => params[:id]).sort_by { |item| -item.id }
+  end
 
   # GET /tasks/new
   def new
@@ -24,7 +34,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.new(task_params)
 
     respond_to do |format|
       if @task.save
@@ -43,6 +53,12 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
+          edit_params = {
+            task_id: @task.id,
+            name: task_params[:name],
+            completed: task_params[:completed]
+            }
+        @edit = Edit.create(edit_params)
         format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
       else
@@ -71,6 +87,6 @@ class TasksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def task_params
-    params.require(:task).permit(:name, :completed)
+    params.require(:task).permit(:name, :completed).with_defaults(:completed => false)
   end
 end

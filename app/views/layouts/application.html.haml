@@ -1,12 +1,18 @@
+!!!
 %html
   %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title Todo
-    =stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-    =javascript_include_tag 'application', 'data-turbolinks-track' => true
-    =csrf_meta_tags
-  %body
-    #flash-display
-    - flash.each do |type, msg|
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    - if !current_user.nil?
       %div
-        = msg
-    =yield
+        Logged in as: #{current_user.email}
+        %form{action: session_url, method: "POST"}
+          %input{name: "authenticity_token", type: "hidden", value: form_authenticity_token}/
+          %input{name: "_method", type: "hidden", value: "delete"}/
+          %input{type: "submit", value: "Logout"}/
+  %body
+    = yield
