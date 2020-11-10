@@ -1,12 +1,30 @@
 %p#notice=notice
-
+%h1 Task Audit
 %p
   %b Name:
   =@task.name
 %p
-  %b Completed:
-  =@task.completed
+  %b Completed?
+  -if @task.completed? 
+    %span Yes
+  -else           
+    %span No
 
+-if @edits.count > 0
+  %h3 Your Edit History for this Task
+  -@edits.each do |edit|
+    %li
+      %span -Update Submitted: 
+      %span=edit.created_at
+      %span -Named:
+      %span=edit.name 
+      %span -Marked Completed?
+      -if edit.completed? 
+        %span Yes
+      -else           
+        %span No
+
+%br
 =link_to 'Edit', edit_task_path(@task)
 \|
 =link_to 'Back', tasks_path

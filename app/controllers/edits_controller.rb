@@ -8,7 +8,7 @@ class EditsController < ApplicationController
     private
 
     def edit_params
-        params.require(:edit).permit(:user_id, :name, :completed)
+        params.require(:edit).permit(:task_id, :name, :completed).with_defaults(completed: false)
     end 
 
 end

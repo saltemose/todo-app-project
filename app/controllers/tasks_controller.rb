@@ -53,12 +53,13 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        edit_params = {
-          task_id: @task.id,
-          name: @task.name,
-          completed: @task.completed
-        }
-        @edit = Edit.create(edit_params)
+          @edit_params = {
+            task_id: @task.id,
+            name: task_params[:name],
+            completed: task_params[:completed]
+            }
+        @edit = Edit.new(@edit_params)
+        @edit.save!
         format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
       else
