@@ -12,6 +12,14 @@ body {
     line-height: 18px;
   }
   
+  td {
+    padding-right: 10px;
+  }
+
+  tr {
+    text-align: left;
+  }
+  
   pre {
     background-color: #eee;
     padding: 10px;
